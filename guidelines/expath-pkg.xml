@@ -1,0 +1,4 @@
+<package xmlns="http://expath.org/ns/pkg" name="http://betamasaheft.eu/guidelines" abbrev="guidelines" version="0.1" spec="1.0">
+    <title>Beta maṣāḥǝft Guidelines</title>
+    <dependency package="http://exist-db.org/apps/shared"/>
+</package>

@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title property="dcterms:title" data-template="config:app-title">App Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta data-template="config:app-meta"/>
+        <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
+        <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+        <link rel="stylesheet" href="resources/highlight/styles/atom-one-light.css"/>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-128357896-1"/>
+        <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-128357896-1');
+</script>
+        
+        <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>
+        <script src="resources/highlight/highlight.pack.js"/>
+        <script type="text/javascript">$(document).ready(function() {
+  $('pre code').each(function(i, block) {
+  console.log('code')
+    hljs.highlightBlock(block);
+  });
+});</script>
+        <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"/>
+    </head>
+    <body id="body">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                </button>
+                <a data-template="config:app-title" class="navbar-brand" href="/Guidelines/">App Title</a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown" id="about">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">project site</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/">Home</a>
+                            </li>
+                            <li>
+                                <a href="/as.html">Search</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="content" class="col-md-12"/>
+        <footer>
+            <div class="col-md-10 "><p>To cite these guidelines, please use: </p>
+            <p class="alert alert-info">Liuzzo, Pietro, Dorothea Reule et al. 2018. ‘Beta maṣāḥǝft Guidelines’ (see &lt;http://betamasaheft.eu/Guidelines/&gt;).</p>
+            </div>
+            <div class="col-md-2"><a class="poweredby" href="http://exist-db.org">
+                <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
+            </a></div>
+        </footer>
+    </body>
+</html>

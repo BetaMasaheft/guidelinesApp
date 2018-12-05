@@ -1,0 +1,35 @@
+/* Application styles could go here */
+footer .poweredby {
+    float: right;
+    margin: 33px 10px 0 0;
+}
+footer .poweredby img {
+    width: 120px;
+}
+body {
+    font-size: 18px;
+    font-family: "Noto Sans", sans-serif;
+}
+#showitem {
+    text-align: justify;
+}
+.toc {
+    max-height: 400px;
+    overflow: auto;
+}
+td > code {
+    white-space: pre-wrap;
+}
+div [id ^= openseadragon] {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    height: 600px;
+}
+
+.caption {
+    text-align: center;
+    margin-bottom: 20pt;
+    margin-top: 20pt;
+}

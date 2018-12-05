@@ -1,0 +1,55 @@
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div class="col-md-3">
+        <div class="col-md-12">
+            <div data-template="app:TableOfContents"/>
+        </div>
+        <div class="well col-md-12">
+            <div class="container">
+            <a href="/Guidelines/?id=schemaView" role="button" class="btn btn-default">Schema View</a>
+            <a href="/Guidelines/?id=ontologyView" role="button" class="btn btn-default">Ontology View</a>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <form action="" class="form form-horizontal" id="searchForm">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <span class="input-group">
+                            <span data-template="app:queryinput"/>
+                            <span class="input-group-btn">
+                            
+                                <button id="f-btn-search" type="submit" class="btn btn-primary">
+                                    Search
+                                </button>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                
+            </form>
+            
+            <div data-template="app:query">
+                <div>
+                    <a href="." class="nav-link" data-template="app:copy-params"/>
+                    <div data-template="app:hit-count"/>
+                    <div class="hidden-xs">
+                        <ul class="pagination" data-template="app:paginate" data-template-per-page="5" data-template-max-pages="9" data-template-min-hits="6"/>
+                    </div>
+                    
+                    <!-- query results -->
+                    <div data-template="app:fullRes" data-template-per-page="5" id="results" class="col-md-12"/>
+                    
+                    <!-- bottom pagination for larger device -->
+                    <div class="hidden-xs">
+                        <ul class="pagination" data-template="app:paginate" data-template-per-page="5" data-template-max-pages="9" data-template-min-hits="6"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-md-9" id="showitem">
+        <div class="container">
+        <div data-template="app:showitem"/>
+        </div>
+    </div>
+</div>

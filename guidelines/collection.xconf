@@ -1,0 +1,36 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:teiE="http://www.tei-c.org/ns/Examples" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <fulltext default="none" attributes="false"/>
+        
+        <lucene diacritics="no">
+            <text qname="tei:body"/>
+            <text qname="tei:div"/>
+            <text qname="tei:p"/>
+            <text qname="tei:ab"/>
+            <text qname="tei:head"/>
+            <text qname="tei:att"/>
+            <text qname="tei:gi"/>
+            <text qname="tei:tag"/>
+            <text qname="tei:val"/>
+            <text qname="tei:quote"/>
+            <text qname="teiE:egXML"/>
+            
+            <inline qname="tei:att"/>
+            <inline qname="tei:gi"/>
+            <inline qname="tei:tag"/>
+            <inline qname="tei:val"/>    
+            
+        </lucene>
+        <range>
+            <create qname="tei:att" type="xs:string"/>
+            <create qname="tei:gi" type="xs:string"/>
+            <create qname="tei:cit" type="xs:string"/>
+            <create qname="tei:ref">
+                <field name="refTarget" match="@target" type="xs:string"/>
+            </create>
+        </range>
+    </index>
+    <triggers>
+        <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
+    </triggers>
+</collection>
