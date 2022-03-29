@@ -2,6 +2,7 @@ xquery version "3.1";
 
 module namespace app="http://betamasaheft.eu/guidelines/templates";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace rng="http://relaxng.org/ns/structure/1.0";
 declare namespace teiE="http://www.tei-c.org/ns/Examples";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://betamasaheft.eu/guidelines/config" at "config.xqm";
@@ -12,7 +13,14 @@ import module namespace kwic = "http://exist-db.org/xquery/kwic"    at "resource
  : This is the logic for the guidelines browser and searching app
  :)
  
+ declare variable $app:rng := doc(concat($config:app-root, '/schema/tei-betamesaheft.rng'));
 
+declare function app:modelorelem($ec){
+if(starts-with($ec, 'tei_model')) 
+      then (for $contModel in $app:rng//rng:define[@name=$ec]//rng:ref/@name 
+                return app:modelorelem($contModel))
+      else substring-after($ec, 'tei_')
+      };
 (:storing separately this input in this function makes sure that when the page is reloaded with the results the value entered remains in the input element:)
 declare function app:queryinput ($node as node(), $model as map(*), $q as xs:string*){<input name="q" type="search" class="form-control diacritics" placeholder="Search string" value="{$q}"/>};
 
@@ -33,7 +41,7 @@ let $options :=
 let $qp :=  '$coll//tei:body[ft:query(*, $q, $options)]'
 let $hits := for $hit in util:eval($qp)  return $hit
 return
-  map {"hits" := $hits}
+  map {"hits" : $hits}
  
 };
 
@@ -169,10 +177,9 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
               order by ft:score($term) descending
           return
           <div class="row">
-            <div class="col-md-3">
-                <a href="?{$params}&amp;id={data($id)}">{$name}</a>   <span class="badge"> {count($expanded//exist:match)}</span>
-            </div>
-             <div class="col-md-9">
+                <a href="?{$params}&amp;id={data($id)}">{$name}</a>   <span class="badge pull-right"> {count($expanded//exist:match)}</span>
+            <br/>
+            <div>
              {kwic:summarize($term,<config width="40"/>)}
              </div>
              
@@ -206,12 +213,12 @@ if ($id = 'ontologyView') then (
         <div>
        <p class="lead">The Beta maṣāḥǝft ontology</p>
        <p><a href="https://betamasaheft.github.io/RDF/">OWLDoc Documentation</a></p>
-        <iframe width="100%" height="600px" src="http://visualdataweb.de/webvowl/#url=https://raw.githubusercontent.com/BetaMasaheft/RDF/master/betamasaheft.json"/>
+        <p><a href="http://visualdataweb.de/webvowl/#url=https://raw.githubusercontent.com/BetaMasaheft/RDF/master/betamasaheft.json">View in WebVOWL</a></p>
     </div>
         <div>
         <p class="lead">The <i>Syntaxe du Codex</i> ontology  which we use for the description of the stratigraphy and history of manuscripts</p>
         <p><a href="https://betamasaheft.github.io/SyntaxeDuCodex/">OWLDoc Documentation</a></p>
-        <iframe width="100%" height="600px" src="http://visualdataweb.de/webvowl/#url=https://raw.githubusercontent.com/BetaMasaheft/SyntaxeDuCodex/master/SyntaxeDuCodex.json"/>
+        <p><a href="http://visualdataweb.de/webvowl/#url=https://raw.githubusercontent.com/BetaMasaheft/SyntaxeDuCodex/master/SyntaxeDuCodex.json">View in WebVOWL</a></p>
     </div>
     </div>
 </div>
@@ -229,6 +236,7 @@ return
 <div class="col-md-12">
 {for $eleSpec in doc('/db/apps/guidelines/schema/tei-betamesaheft.xml')//tei:elementSpec
 let $i := string($eleSpec/@ident)
+let $rngel := $app:rng//rng:element[@name=$i]
 order by $i
 return 
 <div class="row alert alert-warning">
@@ -236,7 +244,8 @@ return
 <p class="lead">Mode : {string($eleSpec/@mode)}</p>
 <p class="lead">Module : {string($eleSpec/@module)}</p>
 {
-transform:transform($eleSpec, 'xmldb:exist:///db/apps/guidelines/xslt/schemarules.xsl',())
+transform:transform($eleSpec, 'xmldb:exist:///db/apps/guidelines/xslt/schemarules.xsl',()),
+transform:transform($rngel, 'xmldb:exist:///db/apps/guidelines/xslt/schemarules.xsl',())
 }</div>
 }
 </div>
@@ -266,6 +275,17 @@ if($term/name() = 'body') then (
 {transform:transform($term, 'xmldb:exist:///db/apps/guidelines/xslt/text.xsl',())}
 {if(doc('/db/apps/guidelines/data/listelements.xml')//tei:item[.=$id]) then (
 <div class="alert alert-info"><p class="lead">TEI guidelines <a target="_blank" href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-{$id}.html">element {$id}</a></p></div>,
+let $teielement := 'tei_' || $id
+let $containerModel := $app:rng//rng:define[descendant::rng:ref[@name=$teielement]]/@name
+let $elemContainer :=$app:rng//rng:define[descendant::rng:ref[@name=$containerModel]]/@name
+let $elnames := for $ec in $elemContainer return app:modelorelem($ec)
+return 
+<div class="alert alert-info">Contained by: 
+{for $e in distinct-values($elnames) return
+<a class="badge" href="/Guidelines/?id={$e}">{$e}</a>}
+</div>,
+let $elemSpec := $app:rng//rng:element[@name=$id]
+return transform:transform($elemSpec, 'xmldb:exist:///db/apps/guidelines/xslt/schemarules.xsl',()),
 if(doc('/db/apps/guidelines/schema/tei-betamesaheft.xml')//tei:elementSpec[@ident=$id]) then (let $elemSpec := doc('/db/apps/guidelines/schema/tei-betamesaheft.xml')//tei:elementSpec[@ident=$id] return transform:transform($elemSpec, 'xmldb:exist:///db/apps/guidelines/xslt/schemarules.xsl',()) ) else ()
 ,
 <div class="alert alert-success"><p>This element is mentioned in the following pages</p>
@@ -304,18 +324,31 @@ return
 </ul>
 </div>
 ) else
-(<div class="lead">Alas, there is no page yet with ID <span class="label label-primary">{$id}</span>. If it is an element name, it might just need we do not have any page because there is no further specification to be given, so please look into the TEI guidelines for <a target="_blank" href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-{$id}.html">element {$id}</a>. Or do we need this page? <a class="btn btn-warning" target="_blank" href="https://github.com/BetaMasaheft/guidelines/issues/new?title=Please%20create%20page%20{$id}&amp;assignee=PietroLiuzzo">
+(<div class="lead">Alas, there is no page yet with ID <span class="label label-primary">{$id}</span>. If it is an element name, it might just need we do not have any page because there is no further specification to be given, so please look into the TEI guidelines for <a target="_blank" href="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-{$id}.html">element {$id}</a>. Or do we need this page? <a class="btn btn-warning" target="_blank" href="https://github.com/BetaMasaheft/guidelines/issues/new?title=Please%20create%20page%20{$id}">
                                Click here to open an issue to ask for this page to be added to the guidelines.
                             </a></div>)
 )
 else (<div>
-<h1>Welcome to the Guidelines of the Beta maṣāḥǝft project!</h1>
-<div><p>You can find here the text of the project guidelines, which is linked and presented for reference in connection with our Schema.</p>
-<p>We have tried to put as many examples as possible in the schema as well as here in the guidelines.</p>
-<p>These encoding practice guidelines as well as the schema are mainteined and used by the project but are open to any interested user. We hope they will be used by other practitiones in the field for their purposes.</p>
+<h1>Welcome to the Beta maṣāḥǝft Guidelines!</h1>
+<div><p>You can find here the text of the guidelines for encoding in TEI information about the 
+Ethiopic and Eritrean Manuscript Cultures, which is linked and presented for reference in connection with the Beta maṣāḥǝft Schema.</p>
+<p>We have tried to put as many examples as possible in the Schema as well as here in the Guidelines.</p>
+<p>These encoding practice guidelines as well as the schema are maintained and used by the Beta maṣāḥǝft project but are open to any interested user. 
+We hope they will be used by other practitioners in the field for their purposes, for more and more projects.</p>
 <p>You can report problems and suggest changes in the <a href="https://github.com/BetaMasaheft/guidelines">GitHub repository</a>.</p>
 </div>
-<div class="lead alert alert-info">Browse and click on the left or Search and click on a search result on the right to see it here.</div>
+<div class="lead alert alert-info">Browse and click on the left or Search and click on a search result to see it here.</div>
+<div class="lead alert alert-warning">Some Quick Links
+<ul>
+<li><a href="/Guidelines?id=howto">Getting started</a></li>
+<li><a href="/Guidelines?id=setup">Set up your working space</a> <a href="/Guidelines?id=workflow">(with some help in using GitHub)</a></li>
+<li><a href="/Guidelines?id=general">The general entry point to the guidelines</a></li>
+<li><a href="/Guidelines?id=images">Images</a></li>
+<li><a href="/Guidelines?id=text-encoding">Text encoding</a></li>
+<li><a href="/Guidelines?id=transliteration-principles">Transliteration</a></li>
+<li><a href="/Guidelines?id=zotero">Bibliography</a></li>
+</ul>
+</div>
 </div>)
 
 };

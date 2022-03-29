@@ -51,7 +51,9 @@ switch ($key)
                         case 'AG' return 'Alessandro Gori'
                         case 'SJ' return 'Sibylla Jenner'
                         case 'AWi' return 'Anaïs Wion'
-
+                        case 'GC' return 'Giulia Casella'
+case 'GS' return 'Guesh Solomon'
+case 'AY' return 'Addisie Yalew'
                         default return 'Alessandro Bausi'};
 
 
@@ -72,9 +74,9 @@ switch ($key)
                         case 'Sibylla'return "SJ" 
                         case 'Jacopo' return 'JG'
                         case 'Nafisa' return 'NV'
-                        
+                         case 'Addisie' return 'AY'                       
                         case 'Michele' return 'MP'
-
+                        case 'Guesh' return 'GS'
                         case 'Eliana' return 'EDS'
                                 case 'Sara' return 'SF'
                                 case 'Irmeli' return 'IP'
