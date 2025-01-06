@@ -101,11 +101,11 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                    
                 )
             } catch * {
-                (<response
+                ((:<response
                     status="fail">
                     <message>Failed to update resource: {concat($err:code, ": ", $err:description)}</message>
                 </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource: ',$err:code, ": ", $err:description))
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource: ',$err:code, ": ", $err:description)) :)
                         )
             }
 };
@@ -180,13 +180,13 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                    
                 )
             } catch * {
-            (
+            ((:
                 <response
                     status="fail">
                     <message>Failed to add resource: {concat($err:code, ": ", $err:description)}
                     </message>
                 </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to add resource: ',$err:code, ": ", $err:description))
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to add resource: ',$err:code, ": ", $err:description)) :)
                         )
             }
 };
@@ -213,11 +213,11 @@ return
                 <message>removed {$file-name}{xmldb:remove($collection-uri, $file-name)}</message>
             </response>
         } catch * {
-(            <response
+((:            <response
                 status="fail">
                 <message>Failed to remove resource: {concat($err:code, ": ", $err:description)}</message>
             </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to remove resource: ',$err:code, ": ", $err:description))
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to remove resource: ',$err:code, ": ", $err:description)):)
                         )
         }
 
@@ -243,7 +243,7 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
             (:       if there are problems, fire notification email:)
         else
             (
-            (:build the message:)
+       (:     (:build the message:)
             let $report := validation:jing-report($item, $schema)
             let $contributorMessage := <mail>
                 <from>pietro.liuzzo@uni-hamburg.de</from>
@@ -284,7 +284,7 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
                 then
                     console:log('Sent Message to editor OK')
                 else
-                    console:log('message not sent to editor')
+                    console:log('message not sent to editor'):)
             
             )
 };
@@ -320,12 +320,12 @@ declare function gitsync:wrongID($mail, $storedFileID, $filename) {
                 </message>
             </mail>
             return
-                (:send the email:)
+                (:send the email
                 if (mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ()))
-                then
-                    console:log('Sent Message to editor OK')
-                else
-                    console:log('message not sent to editor')
+                then:)
+                    console:log('Sent Message to editor')
+         (:       else
+                    console:log('message not sent to editor'):)
 };
 
 (:~
@@ -337,7 +337,7 @@ declare function gitsync:wrongID($mail, $storedFileID, $filename) {
 declare function gitsync:failedCommitMessage($mail, $data-collection, $message) {
      let $failureMessage := <mail>
                 <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <to>info@betamasaheft.eu</to>
                 <cc>{$mail[1]}</cc>
                 <bcc></bcc>
                 <subject>The Syncing of GitHub with the Beta Masaheft App failed</subject>
@@ -357,12 +357,12 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
                 </message>
             </mail>
             return
-                (:send the email:)
+                (:send the email
                 if (mail:send-email( $failureMessage, 'public.uni-hamburg.de', ()))
-                then
-                    console:log('Sent Message to editor OK')
-                else
-                    console:log('message not sent to editor')
+                then:)
+                    console:log('Sent Message to editor')
+          (:      else
+                    console:log('message not sent to editor'):)
 };
 
 (:~
@@ -370,7 +370,7 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
  : @param $json-data github response serializing as xml xqjson:parse-json()  
  :)
 declare function gitsync:parse-request($json-data, $data-collection) {
-let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
+let $login := xmldb:login($data-collection, 'BetaMasaheftAdmin', 'BMAdmin')
 let $repository := $json-data?repository
 let $cturl := $repository?contents_url
 let $contents-url := substring-before($cturl, '{')
@@ -414,4 +414,3 @@ return
                         )
         }
 };
-
