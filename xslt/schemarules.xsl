@@ -12,6 +12,67 @@
         
         
     </xsl:template>
+    <xsl:template match="rng:element[not(parent::rng:element)]">
+        <div>
+            <h3>Content</h3>
+            <p>Please use your editor to see what elements, attributes and in what order they are allowed.</p>
+            <xsl:apply-templates select="rng:text|rng:ref | rng:optional | rng:choice |rng:group"/>
+        </div>
+    </xsl:template>
+    <xsl:template match="rng:ref">
+        <xsl:variable name="name" select="replace(@name, 'tei_', '')"/>
+        <p>See: <a href="https://tei-c.org/release/doc/tei-p5-doc/en/html/ref-{$name}.html">
+            <xsl:choose>
+                <xsl:when test="contains($name, 'macro.')"/>
+                <xsl:when test="contains($name, 'model.')"/>
+                <xsl:when test="contains($name, 'att.')"/>
+                <xsl:otherwise>element </xsl:otherwise>
+            </xsl:choose>
+            <xsl:value-of select="$name"/></a>
+        <xsl:apply-templates/></p>
+    </xsl:template>
+    <xsl:template match="rng:text">
+        Text
+    </xsl:template>
+    <xsl:template match="rng:choice">
+        <h4>Choice between</h4>
+        <xsl:for-each select="node()">
+            <div style="margin-left:5mm;"><xsl:apply-templates select="."/></div>
+        </xsl:for-each>
+    </xsl:template>
+    <xsl:template match="rng:group">
+        <h4>Group</h4>
+        <div style="margin-left:10mm;"><xsl:apply-templates/></div>
+    </xsl:template>
+    <xsl:template match="rng:zeroOrMore">
+        <div>Zero or more: 
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+    <xsl:template match="rng:oneOrMore">
+        <div>One or more: 
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="rng:optional">
+        <div>Optional: 
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="rng:attribute">
+       attribute @<xsl:value-of select="@name"/>
+    </xsl:template>
+    <xsl:template match="rng:element[parent::rng:element]">
+      element &lt;<xsl:value-of select="@name"/>&gt;
+    </xsl:template>
+    
+    
+    <xsl:template match="t:desc[parent::t:elementSpec]">
+        <p><xsl:apply-templates/></p>
+    </xsl:template>
+    
     <xsl:template match="t:exemplum">
         <div>
             <h5>Example <xsl:value-of select="count(preceding-sibling::t:exemplum) +1"/></h5>
@@ -98,10 +159,10 @@
     
     <xsl:template match="t:valItem">
         <tr>
-            <td>
+            <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">
                 <xsl:value-of select="@ident"/>
             </td>
-            <td>
+            <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">
                 <xsl:apply-templates select="t:desc"/>
             </td>
         </tr>
@@ -120,18 +181,22 @@
             <tbody>
                 <xsl:for-each select="t:constraint/sch:rule">
                     <tr>
-                        <td>
+                        <td style="word-break:break-all;">
                             <code>
                                 <xsl:value-of select="@context"/>
                             </code>
                         </td>
-                        <td>
-                            <code>
-                                <xsl:value-of select="sch:report/@test"/>
-                            </code>
+                        <td style="word-break:break-all;">
+                            <xsl:for-each select="sch:report">
+                                <code>
+                                <xsl:value-of select="./@test"/>
+                            </code><br/>
+                            </xsl:for-each>
                         </td>
-                        <td>
-                            <xsl:value-of select="sch:report/text()"/>
+                        <td style="word-break:break-all;">
+                            <xsl:for-each select="sch:report">
+                            <xsl:value-of select="./text()"/><br/>
+                            </xsl:for-each>
                         </td>
                     </tr>
                 </xsl:for-each>

@@ -1,4 +1,7 @@
 /* Application styles could go here */
+
+.pagination {font-size:10px}
+
 footer .poweredby {
     float: right;
     margin: 33px 10px 0 0;
@@ -20,6 +23,10 @@ body {
 td > code {
     white-space: pre-wrap;
 }
+td {
+  white-space: normal !important; 
+  word-wrap: break-word;  
+}
 div [id ^= openseadragon] {
     display: block;
     margin-left: auto;
@@ -27,7 +34,6 @@ div [id ^= openseadragon] {
     width: 80%;
     height: 600px;
 }
-
 .caption {
     text-align: center;
     margin-bottom: 20pt;

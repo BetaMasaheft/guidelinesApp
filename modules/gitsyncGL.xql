@@ -46,7 +46,7 @@ return
         
         let $data-collection := '/db/apps/guidelines/data'
         
-        let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
+        let $login := xmldb:login($data-collection, 'BetaMasaheftAdmin', 'BMAdmin')
         
         return
             try {

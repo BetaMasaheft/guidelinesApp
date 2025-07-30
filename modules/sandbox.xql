@@ -8,5 +8,6 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://betamasaheft.eu/guidelines/config" at "config.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"    at "resource:org/exist/xquery/lib/kwic.xql";
 
-
-base-uri(collection($config:data-root)//id('persons'))
+let $rng := doc(concat($config:app-root, '/schema/tei-betamesaheft.rng'))
+let $element := 'rdg'
+return 

@@ -36,7 +36,7 @@ if(not(empty($post-data))) then
     
 let $data-collection := '/db/apps/guidelines/schema'
 
-let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
+let $login := xmldb:login($data-collection, 'BetaMasaheftAdmin', 'BMAdmin')
    
     return   
     try {

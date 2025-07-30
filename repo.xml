@@ -9,6 +9,6 @@
     <target>guidelines</target>
     <prepare>pre-install.xql</prepare>
     <finish/>
-    <permissions user="Pietro" group="dba" mode="rw-rw-r--"/>
+    <permissions user="BetaMasaheftAdmin" group="dba" mode="rw-rw-r--"/>
 
 <deployed>2018-04-24T22:02:39.009+02:00</deployed></meta>

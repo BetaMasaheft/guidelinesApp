@@ -7,7 +7,10 @@
         <xsl:apply-templates/>
     </xsl:template>
 
-<xsl:template match="t:figure">
+<xsl:template match="t:code">
+        <code><xsl:value-of select="."/></code>
+    </xsl:template>
+    <xsl:template match="t:figure">
     <xsl:variable name="url" select="t:graphic/@url"/>
     <xsl:variable name="id" select="t:graphic/@xml:id"/>
     <div id="{$id}">
@@ -186,6 +189,11 @@
                 <i>
                     <xsl:apply-templates/>
                 </i>
+            </xsl:when>
+            <xsl:when test="@rendition = 'simple:underline'">
+                <u>
+                    <xsl:apply-templates/>
+                </u>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>
