@@ -8,6 +8,9 @@ Also the ontology and schema directories are empty as the data is stored elsewhe
 
 The page views and the elements and attributes view pull information from the TEI page with that id but also directly from the schema, to integrate the guidelines for encoding practice with all the rules and examples provided directly in the Beta maṣāḥǝft ODD ([tei-betamesaheft.xml](https://github.com/BetaMasaheft/Schema/blob/master/tei-betamesaheft.xml)).
 
-The OWL files used by the guidelines can be found here:
+The code used for generating the OWL files used by the guidelines can be found here:
+
 * the [Beta maṣāḥǝft Ontology](https://github.com/BetaMasaheft/RDF/blob/master/betamasaheft.owl)
 * the [Syntaxe du Codex Ontology](https://github.com/BetaMasaheft/SyntaxeDuCodex/blob/master/SyntaxeDuCodex.owl)
+
+The OWL files are included in the expath packages compiled in this repo.
