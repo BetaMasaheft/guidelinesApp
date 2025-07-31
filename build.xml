@@ -31,7 +31,19 @@
         </copy>
     </target>
 
-    <target name="xar" depends="clean,templates" description="create xar file">
+    <target name="vendor" description="copy node deps">
+        <echo message="Copying old shared ressources deps..." />
+        <copy todir="resources/scripts" verbose="true">
+            <fileset file="node_modules/bootstrap/dist/js/bootstrap.min.js"/>
+            <fileset file="node_modules/jquery/dist/jquery.min.js"/>
+        </copy>
+        <copy todir="resources/css" verbose="true">
+            <fileset file="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+            <fileset file="node_modules/bootstrap/dist/css/bootstrap.min.css.map"/>
+        </copy>
+    </target>
+
+    <target name="xar" depends="clean,vendor,templates" description="create xar file">
         <echo message="------------------------------------------------------------" />
         <echo message="Creating xar file..." />
         <echo message="------------------------------------------------------------" />
@@ -46,6 +58,8 @@
                 <exclude name=".vscode/**" />
                 <exclude name="expath-pkg.xml" />
                 <exclude name="repo.xml" />
+                <exclude name=".dockerignore" />
+                <exclude name="local.nginx.conf" />
             </fileset>
             <zipfileset dir="${build.dir}" includes="expath-pkg.xml" fullpath="expath-pkg.xml" />
             <zipfileset dir="${build.dir}" includes="repo.xml" fullpath="repo.xml" />

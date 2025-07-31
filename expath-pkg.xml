@@ -1,6 +1,6 @@
 <package xmlns="http://expath.org/ns/pkg" name="http://betamasaheft.eu/guidelines" abbrev="guidelines" version="@version@" spec="1.0">
     <title>Beta maṣāḥǝft Guidelines</title>
-    <dependency package="http://exist-db.org/apps/shared"/>
+    <dependency package="http://exist-db.org/html-templating" semver-min="1.2.1"/>
     <dependency package="https://betamasaheft.eu/schemas" semver-min="1.0.0"/>
     <dependency package="http://betamasaheft.aai.uni-hamburg.de/guidelines-data/" semver-min="1.0.0"/>
 </package>

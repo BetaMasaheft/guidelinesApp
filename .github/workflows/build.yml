@@ -69,7 +69,9 @@ jobs:
 
       # - name: Add Expath Dependency
       #   working-directory: ./build/
-      #   run: gh release download -R BetaMasaheft/guidelines -p '*.xar' -O '001.xar'
+      #   run: |
+      #     gh release download -R BetaMasaheft/guidelines -p '*.xar' -O '001.xar'
+      #     gh release download -R BetaMasaheft/Schema -p '*.xar' -O '002.xar'
 
       # - name: check contents
       #   working-directory: build/

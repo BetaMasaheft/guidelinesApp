@@ -6,7 +6,8 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace rng = "http://relaxng.org/ns/structure/1.0";
 declare namespace teiE = "http://www.tei-c.org/ns/Examples";
 
-import module namespace templates = "http://exist-db.org/xquery/templates";
+import module namespace templates = "http://exist-db.org/xquery/html-templating";
+import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
 import module namespace config = "http://betamasaheft.eu/guidelines/config" at "config.xqm";
 import module namespace editors = "http://betamasaheft.eu/guidelines/editors" at "editors.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
