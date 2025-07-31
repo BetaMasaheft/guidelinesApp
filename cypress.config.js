@@ -5,7 +5,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: 'http://localhost:8080/exist/apps',
+    baseUrl: 'http://localhost/Guidelines',
     trashAssetsBeforeRuns: true,
     supportFile: 'test/cypress/support/e2e.js', 
     specPattern: 'test/cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
