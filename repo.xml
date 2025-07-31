@@ -1,14 +1,11 @@
-<meta xmlns="http://exist-db.org/xquery/repo">
+<meta xmlns="http://exist-db.org/xquery/repo" commit-id="@commit-id@" commit-time="@commit-time@">
     <description>Beta maṣāḥǝft Guidelines</description>
     <author>Pietro Liuzzo</author>
-    <website/>
-    <status>alpha</status>
+    <website>https://betamasaheft.eu/guidelines</website>
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
     <type>application</type>
     <target>guidelines</target>
     <prepare>pre-install.xql</prepare>
-    <finish/>
-    <permissions user="BetaMasaheftAdmin" group="dba" mode="rw-rw-r--"/>
-
-<deployed>2018-04-24T22:02:39.009+02:00</deployed></meta>
+    <permissions user="BetaMasaheftAdmin" group="dba" mode="rw-rw-r--" />
+</meta>
