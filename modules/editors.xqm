@@ -9,9 +9,6 @@ xquery version "3.1" encoding "UTF-8";
 module namespace editors = "http://betamasaheft.eu/guidelines/editors";
 
 declare namespace test = "http://exist-db.org/xquery/xqsuite";
-
-import module namespace console = "http://exist-db.org/xquery/console";
-
 (:~
  : gets the name of the editor given the initials
  :)
