@@ -5,6 +5,7 @@ describe('Look up transcription guidelines', () => {
     })
 
     // see 03_user 17
+    // don't hardcode the order of results into the test
     it('retrieve transcription guidelines by query', () => {
 
         // In the search field (top right) type transcription and click Search
@@ -15,35 +16,32 @@ describe('Look up transcription guidelines', () => {
         // Check that you get to https://betamasaheft.eu/Guidelines/?q=transcription
           .url()
           .should('include','Guidelines/?q=transcription')
-        // Scroll (and go to second page) to find the fitting title, here Transliteration Principle
+        cy.get('h3')
+          .contains('You found "transcription"')
         cy.get('ul.pagination')
-          .first()
-          .within(() => {
-            cy.get('li:nth-child(4) a')
-              .click()
-        })
+          .should('be.visible')
+        cy.get('#results')
+          .contains('transcription')
         cy.get('#results a')
-          .contains('Transliteration Principles')
-        // click to get to https://betamasaheft.eu/Guidelines/?q=transcription&start=6&id=transliteration-principles
-        .invoke('attr', 'href')
-        .should('eq', '?q=transcription&start=6&id=transliteration-principles')
-        .then(href => {
+          .contains('transcription')
+          .invoke('attr', 'href')
+          .should('contain', '?q=transcription')
+          .then(href => {
               cy.request(href)
                 .its('body')
                 .should('include', '</html>')
-         })
-    }
-    )
-    it('retrieve transcription guidelines via “quick links”', () => {
-        cy.get('a')
-          .contains('Transliteration')
+          })
+    })
+
+    it('retrieve transcription guidelines via Table of Contents”', () => {
+        cy.get('#tocs')
+          .should('be.visible')
+        cy.contains("Wiki")
+          .click()
+        cy.get('#toctable-of-contents > ul > li > a')
+          .should('be.visible')
+          .contains('Transliteration Principles')
           .invoke('attr', 'href')
-          .should('eq', '/Guidelines/?id=transliteration-principles')
-          .then(href => {
-              cy.request(href)
-              .its('body')
-              .should('include', '</html>')
-              .and('include', 'Transliteration')
-         })
+          .should('contain', '?id=transliteration-principles')
     })
 })

@@ -49,8 +49,7 @@ declare %templates:wrap %templates:default("mode", "none") function app:query (
 ) {
   if (empty($q) or $q = "") then (
   ) else
-    let $data-collection := "/db/apps/guidelines/data"
-    let $coll := collection($data-collection)
+    let $coll := collection($config:data-root)
     let $options := <options>
       <default-operator>or</default-operator>
       <phrase-slop>0</phrase-slop>
@@ -239,7 +238,7 @@ declare function app:showitem (
         $param || "=" || $value,
     "&amp;"
   )
-  let $col := collection("/db/apps/guidelines/data")
+  let $col := collection($config:data-root)
   let $id := request:get-parameter("id", ())
   let $term := $col//id($id)
   let $termName := $term/ancestor::tei:TEI//tei:titleStmt/tei:title/text()
@@ -361,7 +360,7 @@ declare function app:showitem (
           }
           {
             if (
-              doc("/db/apps/guidelines/data/listelements.xml")//tei:item[. =
+              doc($config:data-root ||"/listelements.xml")//tei:item[. =
                 $id]
             ) then (
               <div class="alert alert-info">
@@ -531,13 +530,13 @@ We hope they will be used by other practitioners in the field for their purposes
     )
 };
 
-(: minitabs uno per ogni toc e ogni toc una lista, cosi resta visibile la lista desiderata insieme allentita selezionata :)
+(: minitabs one for each toc and each toc a list, so the desired list remains visible together with the selected one :)
 
 declare function app:TableOfContents ($node as node()*, $model as map(*)) {
   <div id="tocs">
     <ul class="nav nav-tabs">
       {
-        for $toc in collection("/db/apps/guidelines/data/toc")//tei:TEI
+        for $toc in collection($config:data-root || "/toc")//tei:TEI
         let $name := string($toc//tei:body/@xml:id)
         return <li>
             {
@@ -557,7 +556,7 @@ declare function app:TableOfContents ($node as node()*, $model as map(*)) {
     </ul>
     <div class="tab-content">
       {
-        for $toc in collection("/db/apps/guidelines/data/toc")//tei:TEI
+        for $toc in collection($config:data-root || "/toc")//tei:TEI
         let $name := string($toc//tei:body/@xml:id)
         return <div id="toc{ $name }">
             {
@@ -573,14 +572,14 @@ declare function app:TableOfContents ($node as node()*, $model as map(*)) {
       <div class="toc tab-pane fade in" id="allelements">
         {
           app:tei2string(
-            doc("/db/apps/guidelines/data/listelements.xml")//tei:body
+            doc($config:data-root || "/listelements.xml")//tei:body
           )
         }
       </div>
       <div class="toc tab-pane fade in" id="allattributes">
         <ul>
           {
-            for $att in collection("/db/apps/guidelines/data")//tei:att
+            for $att in collection($config:data-root)//tei:att
             group by $att
             order by $att
             return <li>
@@ -592,7 +591,7 @@ declare function app:TableOfContents ($node as node()*, $model as map(*)) {
       <div class="toc tab-pane fade in" id="allpages">
         <ul>
           {
-            for $page in collection("/db/apps/guidelines/data/pages")//tei:TEI
+            for $page in collection($config:data-root || "/pages")//tei:TEI
             let $id := string($page//tei:body/@xml:id)
             let $name := $page//tei:titleStmt/tei:title/text()
             order by $name ascending
