@@ -1,0 +1,10 @@
+build/
+.DS_Store
+.vscode/
+node_modules/
+data/
+schema/
+.notes
+test/cypress/screenshots/
+test/cypress/videos/
+test/cypress/downloads/
