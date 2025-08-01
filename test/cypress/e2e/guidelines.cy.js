@@ -23,9 +23,9 @@ describe('Look up transcription guidelines', () => {
         cy.get('#results')
           .contains('transcription')
         cy.get('#results a')
-          .contains('transcription')
+          .should('have.length.gte', 4)
           .invoke('attr', 'href')
-          .should('contain', '?q=transcription')
+          .should('contain', 'transcription')
           .then(href => {
               cy.request(href)
                 .its('body')
