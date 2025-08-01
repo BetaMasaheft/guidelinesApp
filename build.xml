@@ -31,13 +31,20 @@
         </copy>
     </target>
 
-    <target name="vendor" description="copy node deps">
+    <target name="npm.install" description="run 'npm install' for node dependencies">
+        <exec executable="npm" outputproperty="npm.output">
+            <arg line="install" />
+        </exec>
+        <echo message="${npm.output}" />
+    </target>
+
+    <target name="vendor" description="copy npm dependencies..." depends="npm.install">
         <echo message="Copying old shared ressources deps..." />
-        <copy todir="resources/scripts" verbose="true">
+        <copy todir="resources/scripts" verbose="true" failonerror="false">
             <fileset file="node_modules/bootstrap/dist/js/bootstrap.min.js"/>
             <fileset file="node_modules/jquery/dist/jquery.min.js"/>
         </copy>
-        <copy todir="resources/css" verbose="true">
+        <copy todir="resources/css" verbose="true" failonerror="false">
             <fileset file="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
             <fileset file="node_modules/bootstrap/dist/css/bootstrap.min.css.map"/>
         </copy>
