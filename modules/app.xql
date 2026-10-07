@@ -583,7 +583,7 @@ declare function app:TableOfContents ($node as node()*, $model as map(*)) {
             group by $att
             order by $att
             return <li>
-                <a href="/Guidelines/?id=@{ $att/text() }">{ $att/text() }</a>
+                <a href="/Guidelines/?id=@{ $att }">{ $att }</a>
               </li>
           }
         </ul>
