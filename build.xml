@@ -38,16 +38,11 @@
         <echo message="${npm.output}" />
     </target>
 
-    <target name="vendor" description="copy npm dependencies..." depends="npm.install">
-        <echo message="Copying old shared ressources deps..." />
-        <copy todir="resources/scripts" verbose="true" failonerror="false">
-            <fileset file="node_modules/bootstrap/dist/js/bootstrap.min.js"/>
-            <fileset file="node_modules/jquery/dist/jquery.min.js"/>
-        </copy>
-        <copy todir="resources/css" verbose="true" failonerror="false">
-            <fileset file="node_modules/bootstrap/dist/css/bootstrap.min.css"/>
-            <fileset file="node_modules/bootstrap/dist/css/bootstrap.min.css.map"/>
-        </copy>
+    <target name="vendor" description="copy npm dependencies into resources/{js,css,fonts}/external" depends="npm.install">
+        <exec executable="npm" failonerror="true">
+            <arg value="run" />
+            <arg value="vendor:copy" />
+        </exec>
     </target>
 
     <target name="xar" depends="clean,vendor,templates" description="create xar file">
@@ -61,6 +56,7 @@
                 <exclude name="${build.dir}/**" />
                 <exclude name=".github/**" />
                 <exclude name="node_modules/**" />
+                <exclude name="scripts/**" />
                 <exclude name=".gitignore" />
                 <exclude name=".vscode/**" />
                 <exclude name="expath-pkg.xml" />

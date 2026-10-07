@@ -4,9 +4,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta data-template="config:app-meta" />
 		<link rel="shortcut icon" href="resources/images/exist_icon_16x16.ico" />
-		<link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="resources/css/external/bootstrap/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
-		<link rel="stylesheet" href="resources/css/atom-one-light.css" />
+		<link rel="stylesheet" href="resources/css/external/highlight/atom-one-light.min.css" />
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css" />
 
 		<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -21,18 +21,18 @@
 			gtag("config", "UA-128357896-1");
 		</script>
 
-		<script type="text/javascript" src="resources/scripts/jquery.min.js" />
-		<script type="text/javascript" src="resources/scripts/bootstrap.min.js" />
-		<script src="resources/scripts/highlight.pack.js" />
+		<script type="text/javascript" src="resources/js/external/jquery/jquery.min.js" />
+		<script type="text/javascript" src="resources/js/external/bootstrap/bootstrap.min.js" />
+		<script src="resources/js/external/highlight/highlight.min.js" />
 		<script type="text/javascript">
 			$(document).ready(function () {
 				$("pre code").each(function (i, block) {
 					console.log("code");
-					hljs.highlightBlock(block);
+					hljs.highlightElement(block);
 				});
 			});
 		</script>
-		<script type="text/javascript" src="resources/openseadragon/openseadragon.min.js" />
+		<script type="text/javascript" src="resources/js/external/openseadragon/openseadragon.min.js" />
 	</head>
 
 	<body id="body">
