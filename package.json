@@ -1,34 +1,56 @@
 {
-  "name": "guidelinesapp",
-  "version": "1.0.0",
-  "description": "Guidelines of the Beta maṣāḥǝft project",
-  "keywords": [
-    "betamasaheft",
-    "xquery",
-    "exist-db"
-  ],
-  "homepage": "https://github.com/BetaMasaheft/guidelinesApp#readme",
-  "bugs": {
-    "url": "https://github.com/BetaMasaheft/guidelinesApp/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BetaMasaheft/guidelinesApp.git"
-  },
-  "license": "LGPL-3.0-or-later",
-  "author": "",
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "cypress": "^14.5.3",
-    "prettier": "^3.6.2",
-    "prettier-plugin-xquery": "^1.2.5"
-  },
-  "dependencies": {
-    "bootstrap": "^3.4.1",
-    "jquery": "^1.12.4"
-  }
+	"name": "guidelinesapp",
+	"version": "1.0.0",
+	"description": "Guidelines of the Beta maṣāḥǝft project",
+	"keywords": [
+		"betamasaheft",
+		"xquery",
+		"exist-db"
+	],
+	"homepage": "https://github.com/BetaMasaheft/guidelinesApp#readme",
+	"bugs": {
+		"url": "https://github.com/BetaMasaheft/guidelinesApp/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/BetaMasaheft/guidelinesApp.git"
+	},
+	"license": "LGPL-3.0-or-later",
+	"author": "",
+	"type": "commonjs",
+	"main": "index.js",
+	"scripts": {
+		"vendor:copy": "node scripts/copy-vendor-libs.js",
+		"vendor": "npm install && npm run vendor:copy",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"format:check": "prettier --check .",
+		"format:write": "prettier --write . && prettier --write .",
+		"prepare": "husky"
+	},
+	"devDependencies": {
+		"cypress": "^14.5.3",
+		"prettier": "^3.6.2",
+		"prettier-plugin-xquery": "^1.2.5",
+		"husky": "^9.1.7",
+		"lint-staged": "^17.6.0"
+	},
+	"dependencies": {
+		"@highlightjs/cdn-assets": "11.12.0",
+		"bootstrap": "3.4.1",
+		"jquery": "3.7.1",
+		"openseadragon": "2.1.0"
+	},
+	"comments": {
+		"dependencies": "Frontend vendor libraries served to the browser. The build.xml vendor target copies these from node_modules into resources/{js,css,fonts}/external (scripts/copy-vendor-libs.js).",
+		"jquery": "3.7.1, the version BetMasWeb and the parser run (was 1.7.1 from shared-resources). Not 4.x: bootstrap 3.4.1's JS refuses jQuery >= 4. Only page.html's hljs call and bootstrap's navbar/dropdown use it.",
+		"bootstrap": "3.4.1 (was 3.0.3 from shared-resources): same 3.x API, security fixes, the version BetMasWeb ships. Needed for the navbar collapse and dropdown.",
+		"openseadragon": "2.1.0, the same version that was committed under resources/openseadragon.",
+		"@highlightjs/cdn-assets": "11.12.0, the prebuilt browser bundle of highlight.js (the highlight.js npm package itself has no browser build). Replaces the committed custom 9.12.0 pack; the guidelines only highlight xml and json, both in the default bundle. The 9.x line is not published as cdn-assets."
+	},
+	"lint-staged": {
+		"*": [
+			"prettier --write --ignore-unknown",
+			"prettier --write --ignore-unknown"
+		]
+	}
 }
