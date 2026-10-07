@@ -4,15 +4,48 @@ name: Install smoke
 # BetaMasaheft workflow: it builds the xar with ant (which runs npm install and
 # the vendor copy), installs it with xst, and runs the shared bats suite
 # (BetaMasaheft/.github test/install-smoke.bats) against the container logs.
+#
+# The schemas and the guidelines data are declared as dependencies in
+# expath-pkg.xml but are not in the public registry, so a sibling job builds
+# them from source and hands the xars over as an artifact. The numeric prefix
+# keeps the install order: the data package ships the schema it validates with.
 on:
   push:
     branches: [master, main]
   pull_request:
-    branches: [master, main]
+    branches: [master, main, feat-expath]
 
 permissions:
   contents: read
 
 jobs:
+  build-extra-xars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: "temurin"
+          java-version: "8"
+
+      - name: Build Schema and guidelines data from source
+        run: |
+          git clone --depth 1 https://github.com/BetaMasaheft/Schema.git /tmp/Schema
+          git clone --depth 1 https://github.com/BetaMasaheft/guidelines.git /tmp/guidelines
+          ant -f /tmp/Schema/build.xml
+          ant -f /tmp/guidelines/build.xml
+          mkdir extra-xars
+          cp /tmp/Schema/build/*.xar extra-xars/01-schemas.xar
+          cp /tmp/guidelines/build/*.xar extra-xars/02-guidelines-data.xar
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: guidelines-extra-xars
+          path: extra-xars/*.xar
+          retention-days: 1
+
   smoke:
+    needs: build-extra-xars
     uses: BetaMasaheft/.github/.github/workflows/install-smoke.yml@main
+    with:
+      extra-xars-artifact: guidelines-extra-xars
