@@ -8,7 +8,7 @@ xquery version "3.1";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 import module namespace templates = "http://exist-db.org/xquery/html-templating";
-import module namespace lib="http://exist-db.org/xquery/html-templating/lib";
+import module namespace lib = "http://exist-db.org/xquery/html-templating/lib";
 (:
  : The following modules provide functions which will be called by the
  : templating.
@@ -19,10 +19,7 @@ import module namespace app = "http://betamasaheft.eu/guidelines/templates" at "
 declare option output:method "html5";
 declare option output:media-type "text/html";
 
-let $config := map {
-  $templates:CONFIG_APP_ROOT: $config:app-root,
-  $templates:CONFIG_STOP_ON_ERROR: true()
-}
+let $config := map {$templates:CONFIG_APP_ROOT: $config:app-root, $templates:CONFIG_STOP_ON_ERROR: true()}
 (:
  : We have to provide a lookup function to templates:apply to help it
  : find functions in the imported application modules. The templates
@@ -30,7 +27,7 @@ let $config := map {
  : below does see them.
  :)
 let $lookup := function ($functionName as xs:string, $arity as xs:int) {
-  try { function-lookup(xs:QName($functionName), $arity) } catch * { () }
+	try { function-lookup(xs:QName($functionName), $arity) } catch * { () }
 }
 (:
  : The HTML is passed in the request from the controller.

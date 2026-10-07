@@ -1,9 +1,11 @@
 xquery version "3.1";
-(:~ The post-install runs after contents are copied to db.
+
+(:~
+ : The post-install runs after contents are copied to db.
  :
  : @version 1.0.0
  :)
-declare namespace repo="http://exist-db.org/xquery/repo";
+declare namespace repo = "http://exist-db.org/xquery/repo";
 
 import module namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
@@ -11,10 +13,12 @@ import module namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: file path pointing to the exist installation directory :)
 declare variable $home external;
+
 (: path to the directory containing the unpacked .xar package :)
 declare variable $dir external;
+
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
 (: Since other apps are also writing to the base dir this is necessary :)
-xmldb:reindex('/db/apps/guidelines')
+xmldb:reindex("/db/apps/guidelines")
