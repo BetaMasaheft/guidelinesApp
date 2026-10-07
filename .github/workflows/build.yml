@@ -13,16 +13,16 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.CI_BOT_PAT }}
     strategy:
-       fail-fast: false
-       matrix:
+      fail-fast: false
+      matrix:
         # 7.0.0-SNAPSHOT and 6.4.0 created
-         exist-version: [latest, release]
-         java-version: [11, 21]
-         exclude:
-           - exist-version: release
-             java-version: 21
-           - exist-version: latest
-             java-version: 11
+        exist-version: [latest, release]
+        java-version: [11, 21]
+        exclude:
+          - exist-version: release
+            java-version: 21
+          - exist-version: latest
+            java-version: 11
 
     steps:
       # Checkout code
@@ -36,11 +36,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libxml2-utils bats
-          
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: linux/amd64,linux/arm64 
+          platforms: linux/amd64,linux/arm64
           # platforms: all
 
       - name: Make buildkit default
@@ -60,7 +60,7 @@ jobs:
       - name: Install Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: ${{ matrix.java-version }}
       - run: ant
 
@@ -85,7 +85,7 @@ jobs:
         run: docker compose up -d
 
       - name: Wait for server to start
-        timeout-minutes: 3 
+        timeout-minutes: 3
         run: |
           echo "Waiting for server to start..."
           until docker logs exist 2>&1 | grep -q "Server has started"; do
@@ -96,7 +96,7 @@ jobs:
       # Test
       - name: Run smoke test
         run: bats --tap test/*.bats
-  
+
       - name: debug logs
         if: failure()
         run: docker logs exist | grep 'ERROR'

@@ -13,7 +13,9 @@ declare namespace test = "http://exist-db.org/xquery/xqsuite";
 (:~
  : gets the name of the editor given the initials
  :)
-declare %test:arg("key", "PL") %test:assertEquals("Pietro Maria Liuzzo") function editors:editorKey($key as xs:string) {
+declare %test:arg("key", "PL") %test:assertEquals("Pietro Maria Liuzzo") function editors:editorKey (
+	$key as xs:string
+) {
 	switch ($key)
 		case "ES" return
 			"Eugenia Sokolinski"
@@ -102,7 +104,7 @@ declare %test:arg("key", "PL") %test:assertEquals("Pietro Maria Liuzzo") functio
 (:~
  : given the user name, returns the initials
  :)
-declare function editors:editorNames($key as xs:string) {
+declare function editors:editorNames ($key as xs:string) {
 	switch ($key)
 		case "Eugenia" return
 			"ES"

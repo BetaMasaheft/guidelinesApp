@@ -13,18 +13,19 @@ declare variable $dir external;
 (: the target collection into which the app is deployed :)
 declare variable $target external;
 
-declare function local:mkcol-recursive($collection, $components) {
+declare function local:mkcol-recursive ($collection, $components) {
 	if (exists($components)) then
 		let $newColl := concat($collection, "/", $components[1])
 		return (
-			xmldb:create-collection($collection, $components[1]), local:mkcol-recursive($newColl, subsequence($components, 2))
-		)
+				xmldb:create-collection($collection, $components[1]),
+				local:mkcol-recursive($newColl, subsequence($components, 2))
+			)
 	else (
 	)
 };
 
 (: Helper function to recursively create a collection hierarchy. :)
-declare function local:mkcol($collection, $path) {
+declare function local:mkcol ($collection, $path) {
 	local:mkcol-recursive($collection, tokenize($path, "/"))
 };
 

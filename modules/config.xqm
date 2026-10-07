@@ -37,7 +37,7 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
  : Resolve the given path using the current application context.
  : If the app resides in the file system,
  :)
-declare function config:resolve($relPath as xs:string) {
+declare function config:resolve ($relPath as xs:string) {
 	if (starts-with($config:app-root, "/db")) then
 		doc(concat($config:app-root, "/", $relPath))
 	else
@@ -47,22 +47,22 @@ declare function config:resolve($relPath as xs:string) {
 (:~
  : Returns the repo.xml descriptor for the current application.
  :)
-declare function config:repo-descriptor() as element(repo:meta) {
+declare function config:repo-descriptor () as element(repo:meta) {
 	$config:repo-descriptor
 };
 
 (:~
  : Returns the expath-pkg.xml descriptor for the current application.
  :)
-declare function config:expath-descriptor() as element(expath:package) {
+declare function config:expath-descriptor () as element(expath:package) {
 	$config:expath-descriptor
 };
 
-declare %templates:wrap function config:app-title($node as node(), $model as map(*)) as text() {
+declare %templates:wrap function config:app-title ($node as node(), $model as map(*)) as text() {
 	$config:expath-descriptor/expath:title/text()
 };
 
-declare function config:app-meta($node as node(), $model as map(*)) as element()* {
+declare function config:app-meta ($node as node(), $model as map(*)) as element()* {
 	<meta xmlns="http://www.w3.org/1999/xhtml" content="Pietro Liuzzo" property="dcterms:creator" />,
 	<meta xmlns="http://www.w3.org/1999/xhtml" content="Dorothea Reule" property="dcterms:creator" />,
 	<meta
@@ -86,15 +86,15 @@ declare function config:app-meta($node as node(), $model as map(*)) as element()
  : For debugging: generates a table showing all properties defined
  : in the application descriptors.
  :)
-declare function config:app-info($node as node(), $model as map(*)) {
+declare function config:app-info ($node as node(), $model as map(*)) {
 	let $expath := config:expath-descriptor()
 	let $repo := config:repo-descriptor()
 	return <table class="app-info">
-		<tr><td>app collection:</td><td>{ $config:app-root }</td></tr>
-		{
-			for $attr in ($expath/@*, $expath/*, $repo/*)
-			return <tr><td>{ node-name($attr) }:</td><td>{ $attr/string() }</td></tr>
-		}
-		<tr><td>Controller:</td><td>{ request:get-attribute("$exist:controller") }</td></tr>
-	</table>
+			<tr><td>app collection:</td><td>{ $config:app-root }</td></tr>
+			{
+				for $attr in ($expath/@*, $expath/*, $repo/*)
+				return <tr><td>{ node-name($attr) }:</td><td>{ $attr/string() }</td></tr>
+			}
+			<tr><td>Controller:</td><td>{ request:get-attribute("$exist:controller") }</td></tr>
+		</table>
 };

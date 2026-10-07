@@ -14,40 +14,40 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // we expect a 3rd party library error with message 'trimmed is undefined'
-  // and don't want to fail the test so we return false
-  // see #4
-  if (err.message.includes('trimmed is undefined')) {
-    return false
-  }
-})
+Cypress.on("uncaught:exception", (err, runnable) => {
+	// we expect a 3rd party library error with message 'trimmed is undefined'
+	// and don't want to fail the test so we return false
+	// see #4
+	if (err.message.includes("trimmed is undefined")) {
+		return false;
+	}
+});
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // we expect a 3rd party library error with message 'trimmed is undefined'
-  // and don't want to fail the test so we return false
-  // see #4
-  if (err.message.includes('activation element [object NodeList] is missing')) {
-    return false
-  }
-})
+Cypress.on("uncaught:exception", (err, runnable) => {
+	// we expect a 3rd party library error with message 'trimmed is undefined'
+	// and don't want to fail the test so we return false
+	// see #4
+	if (err.message.includes("activation element [object NodeList] is missing")) {
+		return false;
+	}
+});
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // we expect a 3rd party library error with message 'trimmed is undefined'
-  // and don't want to fail the test so we return false
-  // see #4
-  if (err.message.includes('Cannot read properties of undefined ')) {
-    return false
-  }
-})
+Cypress.on("uncaught:exception", (err, runnable) => {
+	// we expect a 3rd party library error with message 'trimmed is undefined'
+	// and don't want to fail the test so we return false
+	// see #4
+	if (err.message.includes("Cannot read properties of undefined ")) {
+		return false;
+	}
+});
 
 // Ignore generic cross-origin script errors (e.g., “Script error.”)
-Cypress.on('uncaught:exception', (err) => {
-  if (err.message.includes('Script error') || err.message.includes('cross origin script')) {
-    return false;
-  }
+Cypress.on("uncaught:exception", (err) => {
+	if (err.message.includes("Script error") || err.message.includes("cross origin script")) {
+		return false;
+	}
 });
 
 // Silence logs for xhr and fetch requests
@@ -55,12 +55,11 @@ Cypress.on('uncaught:exception', (err) => {
 //   cy.intercept({ resourceType: /xhr|fetch/ }, { log: false })
 // })
 beforeEach(() => {
-  // only silence GA pings, not our real API
-  cy.intercept('POST', 'https://www.google-analytics.com/**', (req) => {
-    req.reply({ statusCode: 204, body: '' });
-  });
+	// only silence GA pings, not our real API
+	cy.intercept("POST", "https://www.google-analytics.com/**", (req) => {
+		req.reply({ statusCode: 204, body: "" });
+	});
 });
-
 
 // 2a) Stub font files to prevent sanitizer errors
 // beforeEach(() => {
@@ -98,7 +97,6 @@ beforeEach(() => {
 //     { log: false }
 //   );
 // });
-
 
 // Globally intercept all requests to /Dillmann/** and proxy them to /exist/apps/gez-en/**
 // beforeEach(() => {
