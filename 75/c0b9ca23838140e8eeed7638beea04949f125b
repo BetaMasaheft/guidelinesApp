@@ -1,0 +1,23 @@
+.github/workflows/build.yml
+  s_8bfb3335156c05::t_5549105cd7e0c9 12
+.github/workflows/format-check.yml
+  s_8bfb3335156c05::t_cbc3326a5f893a 15
+.github/workflows/smoke.yml
+  s_8bfb3335156c05::t_a5f19b21bbbc26 23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "75c0b9ca23838140e8eeed7638beea04949f125b",
+  "prompts": {},
+  "sessions": {
+    "s_8bfb3335156c05": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "643a5d21-eab7-43a8-94bd-0b532756f586",
+        "model": "unknown"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
